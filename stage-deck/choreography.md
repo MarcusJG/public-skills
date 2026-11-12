@@ -2,6 +2,16 @@
 
 Read before writing reveal logic.
 
+**This file applies when `STEPS` is on** (`SKILL.md` §0, the second intake
+question). With `STEPS` off every slide shows complete, one click moves one
+slide, and only §4's rule that annotation text never sits on the artifact still
+binds. Do not turn steps on because a slide feels full: a full slide is split or
+cut, and steps are the presenter's choice.
+
+Mark step content with `data-reveal="1"`, `"2"`, … whether or not steps are on.
+The template shows everything when they are off, so the choice can change late
+without touching a beat.
+
 Reveal order is **argument construction**, not decoration. A beat's states are the
 order in which its point gets made, and the default — append the next block — is a
 choice to make deliberately rather than inherit.
@@ -16,7 +26,7 @@ Two contracts in `SKILL.md` §5 govern everything here and are not restated: **r
 - **A reveal adds one idea.** Two consecutive states differ in one localized region.
   If you cannot point at the single thing that changed, split the reveal.
 - **Reveal count is derived from the beat's own content**, never hand-authored.
-  Compute it from the reveal-bearing array.
+  The template computes it from the highest `data-reveal` a beat renders.
 - **Reveals should follow the order the content argues in.** This is the floor that
   the two contracts above do not supply: they cap the payload and the concealment,
   but nothing else stops a deck where every reveal appends the next thing. A beat

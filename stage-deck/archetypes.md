@@ -99,7 +99,7 @@ is structural:
 ### `chapter`
 
 Oversized chapter index and title, nothing else. Zero reveals. Centres its own
-block; exempt from the fill floor. It still carries the kicker, foot, and rail.
+block; exempt from the fill floor. It still carries the foot and the tracker.
 
 ### `statement`
 
@@ -107,7 +107,7 @@ One claim, an optional support line, an optional labelled strip.
 
 - Reveal 0 shows the claim and support line; strip items reveal after.
 - **The strip's items must be parallel in kind, and each must carry content, not
-  only a label** (`content.md` §2–3). The strip is the most common place both
+  only a label** (`content.md` §3–4). The strip is the most common place both
   rules break, because three mono labels make unlike or empty things look alike
   and finished.
 - **Not exempt from the fill floor.** An archetype exempt from both the fill floor
@@ -275,7 +275,7 @@ full argument rather than a caption.
 - **`1fr 1fr`, figure on the tinted half, text on paper.** The tint supplies the
   dominance that equal widths otherwise forfeit.
 - **The tinted half is a vertical field running the full stage height** — it
-  takes the kicker band, the basis row, and the foot on its side with it, exactly
+  takes the headline block, the basis row, and the foot on its side with it, exactly
   as a horizontal field may run to the stage bottom. That is what prevents the
   claim, the basis, or the foot from crossing the tint edge: the boundary runs
   through the whole frame, so nothing crosses it. No corner of the field appears
