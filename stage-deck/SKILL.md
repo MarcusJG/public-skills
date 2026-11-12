@@ -1,22 +1,33 @@
 ---
 name: stage-deck
-description: Plan and build standalone single-file HTML presentation decks — evidence-first stages, structured dense text, and figures that draw their argument. Use when asked to draft, plan, or build a deck, talk, walkthrough, retrospective, or presentation as HTML rather than slides. Drafting is an interactive session with the user that produces a deck spec; building renders the deck.
+description: Plan and build standalone single-file HTML presentation decks — evidence-first stages, structured dense text, and figures that draw their argument. Use when asked to draft, plan, or build a deck, talk, walkthrough, retrospective, or presentation as HTML rather than slides. Drafting is an interactive session with the user that produces a deck spec; building renders the deck. A build from an outline or notes first agrees the argument and the wording with the user.
 ---
 
 # Stage deck
 
-**Two entry points.** Asked to *draft* or *plan* a deck with the user, follow
-`draft.md` — an interactive session that produces a deck spec, and builds
-nothing. Asked to *build*, follow this file; where a spec exists, §0 makes it
-the authority.
+**Three ways in.**
+
+- Asked to *draft* or *plan* a deck with the user: follow `draft.md`. It is an
+  interactive session that produces a deck spec and builds nothing.
+- Asked to *build* from a spec that session produced: follow this file. §0 makes
+  the spec the authority.
+- Asked to *build* from anything else (an outline, notes, a brief, a document,
+  a topic): **pass the three gates in §0 first.** An outline is a draft of the
+  argument, not an agreed one. A deck built straight from it spends its effort
+  on slides that are then reworded and redrawn.
+
+Once a deck is built, the user's changes to it are handled by `review.md`.
 
 Produce a presentation as **one self-contained HTML file** — no build step, no
 framework, no network requests. One file, because the output has to be portable:
-forwarded, opened off disk, printed to PDF.
+forwarded, opened off disk, printed to PDF. **Start from `template.html`**, which
+already carries the layout, the navigation and the drawing helpers.
 
-The audience surface renders **zero chrome**: no controls, no progress text, no
-labels about the mechanics. Every reveal is **presenter-owned**: nothing moves on
-a timer, nothing moves on scroll.
+The audience surface has **one control, and it is invisible until used**: a click
+on the right half of the stage advances and a click on the left half goes back,
+so a reader who is handed the file needs no instructions. There are no buttons
+and no progress text. Nothing moves on a timer and nothing moves on scroll.
+Whether a slide builds in steps is decided at intake (§0), never assumed.
 
 **Text on a stage is scanned, not read.** That is the governing constraint, and it
 is not the same as "no text." A stage may carry a great many words if they are
@@ -46,11 +57,44 @@ a check.
 | Build any beat | `archetypes.md` | Ratios, budgets, column balance, and field/band rules are exact numbers, not judgement. |
 | Write the reveal logic | `choreography.md` | Reveal order is argument construction. The default — append the next block — is a choice you should make deliberately, not inherit. |
 | Write the scaffold, or debug a layout | `build.md` | The traps here are silent: a dead reveal, a clipped figure, a margin unit that only fails at 720p. |
-| Declare it finished | `verify.md` | Run the verifier, then the judgement checklist it cannot attempt. |
+| Declare it finished | `verify.md` | Run the verifier, the cold read of every diagram, then the judgement checklist. |
+| Change a built deck on the user's feedback | `review.md` | A correction to one slide is usually a pattern across the deck, and the commonest mistake is to overcorrect. |
 
-**Decide, don't ask.** Where these documents are silent, make the call your
-judgement supports and record it. A stalled deck is worse than a documented
-invention.
+### Three gates before a build
+
+Each gate ends with the user's answer, and all three come before any HTML. A spec
+from `draft.md` has already passed them. Skip one only when the user says to.
+
+**Gate 1: intake.** Two questions decide how the deck is built, and a wrong
+guess at either costs rounds of rework. Ask both, with a recommendation
+(`draft.md` Stage 0 has the wording):
+
+1. **Will people read this on their own, or will someone present it live?** This
+   sets `MODE` (§1). A deck that will be forwarded or read before a meeting is
+   `standalone` even if someone also talks over it once.
+2. **Should each slide show complete, or build in steps as the presenter
+   clicks?** This sets `STEPS`. Recommend complete slides for a `standalone`
+   deck: a reader clicking through builds finds them tedious. Recommend steps
+   only where a presenter needs to hold attention on one part at a time.
+
+**Gate 2: the argument.** In one message, restate in your own words, in under
+ten lines, what the deck argues, to whom, and what should be different
+afterwards. Then list what you doubt in the material, leading with the doubts
+that would change the argument. An outline does not settle this. It may be a
+first draft, it may have been written by a model, and a claim in it can be wrong
+while sounding right. `content.md` §2 has the tests to run on each claim.
+
+**Gate 3: the wording.** Write every slide's headline and description as plain
+text, in order, and get the list agreed. For each figure slide add one sentence
+saying what the diagram will show. **Nothing is drawn until this list is
+approved.** A figure is built around its words, so a reworded slide usually
+needs a redrawn figure, and agreeing words costs minutes where redrawing costs
+an hour.
+
+**Below the gates: decide, don't ask.** The argument and the wording belong to
+the user. Everything else is a build decision. Where these documents are silent
+on one, make the call your judgement supports and record it. A stalled deck is
+worse than a documented invention.
 
 **Don't force the model.** If an archetype has no honest home in the material,
 leave it unused and say why. A forced beat is worse evidence than a missing one.
@@ -62,11 +106,20 @@ is worth as much as the file.
 
 ### Sources
 
-**Where source material is supplied, it is the authority.** Build from the
-documents you were given, keep their figures and terminology, and do not research
-past them. If the deck needs something the sources do not contain, say so and
-leave a gap rather than filling it from general knowledge — a plausible invention
-beside sourced material is the worst outcome available.
+**Evidence is the authority on facts. An outline is not the authority on the
+argument.** Supplied material comes in two kinds, with different standing:
+
+- **Evidence**: reports, data, transcripts, the documents the deck is about.
+  Build from it, keep its figures and terminology, and do not research past it.
+  If the deck needs something the evidence does not contain, say so and leave a
+  gap rather than filling it from general knowledge — a plausible invention
+  beside sourced material is the worst outcome available.
+- **An outline, a brief, or notes**: someone's draft of what the deck should
+  say. Every claim in it is a proposal. It goes through gate 2 like anything
+  else: restate it, test its claims, and say which you doubt. Copying an
+  outline's sentences onto slides carries its mistakes across at full
+  confidence. The same holds for what the user says in conversation: it is
+  direction to distill, never copy to paste (`content.md` §2).
 
 This includes **a figure's own slots.** Filling a diagram with plausible example
 items while the sourced sentences the beat was built to carry go unused is the same
@@ -133,12 +186,12 @@ A deck is an ordered array of **beats**. Every beat declares exactly one
 **archetype**, which owns its structure, and carries zero or more **reveal steps**.
 
 ```js
-const MODE = "standalone";        // or "presented" — governs every text budget
+const MODE  = "standalone";       // or "presented" — governs every text budget
+const STEPS = false;              // true: slides build in steps (choreography.md)
 const BEATS = [
   {
     id: "opening",                // stable, URL-safe
-    chapter: "Opening",           // groups beats for the rail
-    kicker: "Opening · framing",  // mono locator, top-left
+    chapter: "Opening",           // the part of the argument it belongs to
     archetype: "statement",
     // ...archetype-specific fields
   },
@@ -152,8 +205,21 @@ const BEATS = [
 | `presented` | A backdrop. A presenter carries the argument; the stage carries evidence. | Conversational budgets |
 | `standalone` | The document. A reader with no presenter must get the whole argument from the file or a PDF of it. | Dense budgets; `brief` and `split` available |
 
-This governs text budgets, available archetypes, and the fill floor. Declare it
-before writing any beat. Exact numbers: `archetypes.md`.
+This governs text budgets, available archetypes, and the fill floor. It is the
+first intake answer (§0), so ask; do not infer it. Exact numbers:
+`archetypes.md`.
+
+**Getting this wrong is expensive.** A deck built as `presented` and then read
+alone has thin descriptions and diagrams that need a voice to explain them, and
+every slide has to be revisited. When the answer is "both", build `standalone`.
+
+### Steps
+
+`STEPS` is the second intake answer. With `STEPS = false` every slide shows
+complete and one click moves one slide; every `[data-reveal]` element is shown
+at once. With `STEPS = true` the reveal rules below and `choreography.md` apply.
+The slide's final state is identical either way, so the choice can be changed
+late without redrawing anything.
 
 ### Choosing an archetype
 
@@ -192,10 +258,11 @@ flattened into one shape.
 
 - **No generic fallback.** A taxonomy, a role list, and a finding list must not
   render through the same component.
-- **A reveal adds one idea.** Two consecutive states differ in one localized
-  region. If you cannot point at the single thing that changed, split the reveal.
-- **Reveal count is derived, never hand-authored** — it is a function of the
-  beat's own reveal-bearing array. Compute it.
+- **With `STEPS` on, a reveal adds one idea.** Two consecutive states differ in
+  one localized region. If you cannot point at the single thing that changed,
+  split the reveal.
+- **Reveal count is derived, never hand-authored.** The template computes it
+  from the `data-reveal` values a beat renders.
 - **A basis note is optional on every archetype.** Add one only where the body
   genuinely needs qualifying.
 
@@ -207,19 +274,25 @@ One anatomy holds for every beat, so a cut from any beat to any other never shif
 shared furniture. Archetypes are *arrangements within* this grid.
 
 ```
-┌─ rail (fixed, left) ─────────────────────────────────────────────┐
-│  ▪ kicker                                          5.5vh          │
-│                                                                   │
-│  ── claim, one or two lines, starts at 13vh ──                    │
+┌─ tracker (fixed, left) ──────────────────────────────────────────┐
+│  Headline, one or two lines, starts at 5.5vh                      │
+│  Description, one to three lines                                  │
 │                                                                   │
 │     [ body region — content CENTRES and FILLS this box ]          │
 │                                                                   │
-│  basis note, full stage width, when present        87.5vh         │
+│  evidence note, full stage width, when present     89vh           │
 │  ──────────────────────────────────────────────────────────────  │
-│  ▪ open slot                                       94.5vh         │
+│  ▪ open slot                              NN / TT  94.5vh         │
 └──────────────────────────────────────────────────────────────────┘
 ```
 
+Three names recur in these documents and in the template's classes: the
+**headline** is the beat's claim (`.claim`), the **description** sits under it
+(`.desc`), and the **evidence note** is the basis (`.basis`).
+
+- **Nothing sits above the headline.** No eyebrow, no chapter label, no number
+  beside it. The headline is the first thing on the slide and it holds the left
+  edge. Space above it is the top margin and nothing more.
 - **Root:** `height: 100dvh; overflow: hidden` on **both `html` and `body`**. A
   deck never scrolls.
 - **The stage root declares its beat's archetype:**
@@ -237,50 +310,55 @@ shared furniture. Archetypes are *arrangements within* this grid.
 
 | Region | Occupies |
 |---|---|
-| Kicker band | `5.5vh` → `~7.5vh` |
-| Claim block | `13vh` → claim end |
-| **Body region** | claim end → `87.5vh` (or `94.5vh` with no basis) |
-| Basis note, when present | `87.5vh` → `94.5vh` |
+| Headline block | `5.5vh` → the end of the description |
+| **Body region** | end of the description → `89vh` (or `94.5vh` with no evidence note) |
+| Evidence note, when present | `89vh` → `94.5vh` |
 | Foot | `94.5vh` → `100vh` |
 
-`--claim-top` is measured from the top edge of the stage; `--kicker-band` is that
-band's **bottom edge**, not the kicker's text height. With the kicker as an in-flow
-sibling the claim's offset is `calc(var(--claim-top) - var(--kicker-band))` =
-`5.5vh` — the gap between them, not the claim's position. Naming `--kicker-band`
-after the text is what makes this arithmetic go wrong.
+**A headline is never more than two lines, and a description never more than
+three.** That is what makes the budget close, so check it first. In characters:
 
-**A claim is never more than two lines.** That rule is what makes the budget close,
-so check it first. **In characters that means ~55–62** at the 32ch cap, and
-**~42–46** at the statement's 24ch cap — the constraint the two-lines rule
-actually imposes. Count characters, not lines, when drafting.
+| | Headline | Description |
+|---|---|---|
+| `standalone` | about 110 (4.2vh, 62ch cap) | about 330; expected on every beat but the title |
+| `presented` | about 60 (5.8vh, 32ch cap) | one line, or none |
+| the title `statement` | about 42–46 (9vh, 24ch cap) | a subline in the body |
 
-**The body never drops below 45vh.** If it would, the claim is too long or the beat
-is too full — split it. Never solve an overflow by shrinking type below the ladder.
+Count characters, not lines, when drafting. These are ceilings. A headline is as
+long as its sentence needs and no longer.
 
-`chapter` is exempt: it centres its own block. `number` has no claim block — its
-value is a display element inside the body. Both still carry the kicker, foot, and
-rail: shared furniture never disappears, or cutting to a chapter card shifts the
-frame.
+**The body never drops below 45vh.** If it would, the headline block is too long
+or the beat is too full — split it. Never solve an overflow by shrinking type
+below the ladder.
 
-### The meta frame
+`chapter` is exempt: it centres its own block. `number` has no headline block —
+its value is a display element inside the body. Both still carry the foot and
+the tracker: shared furniture never disappears, or cutting to a chapter card
+shifts the frame.
 
-- **Kicker, top-left**, locates the moment: `Chapter · facet`.
-- **Basis note** spans the **full stage width** — reference material, not reading
-  matter, and a narrow measure makes it three lines deep for no benefit. Over two
-  lines at full width means it is too long: cut it.
+### The frame
+
+- **Evidence note** spans the **full stage width** — reference material, not
+  reading matter, and a narrow measure makes it three lines deep for no benefit.
+  Over two lines at full width means it is too long: cut it.
 - **Foot** carries an **open left slot** — empty by default, available for a
-  confidentiality mark, client name, or date — and `NN / TT` right. One deck-level
-  string, not per-beat. Empty reserves no space.
-- **The chapter is named in the kicker and never repeated in the foot.**
+  confidentiality mark, client name, or date — and `NN / TT` right. One
+  deck-level string, not per-beat. Empty reserves no space. **On the first slide
+  the slot carries the navigation hint** ("Click the right half, or press →, to
+  advance"), and nowhere else.
 - **The foot hairline draws only where there is content beneath it.**
-- Both are `aria-hidden` and `pointer-events: none`.
-- **Progress rail:** fixed left, vertically centred, grouped by chapter. Segment
-  length falls off with distance; `max(0.8vh, 3.2vh − 0.3vh × distance)` works.
-  The current segment fills with reveal progress.
+- The foot is `aria-hidden` and `pointer-events: none`.
+- **Tracker:** fixed left, vertically centred, **one equal segment per slide,
+  only the current one filled.** Segments never change size and are never
+  grouped: a tracker that reshapes itself on every click pulls the eye off the
+  slide. With `STEPS` on, the current segment fills as its steps land.
+- **Click zones:** two invisible full-height buttons, each half the stage. A
+  faint chevron appears at the edge on hover. The cursor is the ordinary
+  pointer; no custom cursor, no arrows drawn on the stage.
 
 ---
 
-## 3. Type: one ladder, six steps
+## 3. Type: one ladder, seven steps
 
 **Size everything in `vh`.** The deck is laid out for 1080p/16:9 projection; a
 washed-out projector is the test, not a retina laptop.
@@ -292,13 +370,14 @@ maps onto one of them.
 |---|---|---|
 | **Display** | `26vh` chapter index · `30vh` number value | The one oversized element on a stage |
 | **Chapter title** | `8.5vh` | Chapter cards only |
-| **Claim** | `9vh` statement (max `24ch`) · `5.8vh` all others (max `32ch`) | The beat's assertion |
+| **Headline** | `9vh` title statement (max `24ch`) · `4.2vh` standalone (max `62ch`) · `5.8vh` presented (max `32ch`) | The beat's claim |
+| **Description** | `2.3vh`, max `110ch`, line-height `1.5`, `--dim` | The one to three sentences under the headline |
 | **Lead** | `2.9vh`, max `44ch`, line-height `1.45` | Column headings, list items, prose, sub-heads, finding labels, support lines, annotation headings — the primary body level |
 | **Detail** | `2.1vh`, max `52ch`, line-height `1.5` | Column bodies, grid cells, group items, annotation bodies, dense reference content — the secondary level, and the floor |
-| **Meta** | `1.8vh` mono, tracking `0.14em`, uppercase · `1.6vh` basis | Kicker, foot, units, axis labels, state labels, basis notes |
+| **Meta** | `1.8vh` mono, tracking `0.14em`, uppercase · `1.6vh` basis | Foot, units, axis labels, state labels, evidence notes |
 
 **At most two body styles in the body region of any stage** — one Lead, one Detail.
-Display, meta, and the claim don't count. Three sizes within a few tenths of a vh
+Display, meta, the headline and the description don't count. Three sizes within a few tenths of a vh
 read as inconsistency, not hierarchy: the Lead/Detail ratio is ~1.4 precisely so
 one step is unmistakable. A dense beat gets no third size for a sub-sub-head —
 nest with indent and colour, or don't nest.
@@ -316,8 +395,10 @@ line crosses a mark or another line.
 
 ## 4. Colour: slot contract
 
-**This skill ships no colour values.** Fill these slots with the brand palette.
-Every derived tone mixes from the slots — no raw hex outside `:root`.
+**The template's palette is a placeholder.** Replace it with the brand palette
+before anything is drawn; ask for the brand context at intake rather than
+choosing colours a brand answer then overrides. Every derived tone mixes from
+the slots — no raw hex outside `:root`.
 
 | Slot | Role |
 |---|---|
@@ -326,7 +407,8 @@ Every derived tone mixes from the slots — no raw hex outside `:root`.
 | `--dim` | Secondary text |
 | `--surface` | Artifact plane |
 | `--line` | Artifact and container borders |
-| `--accent` | The departure (below) |
+| `--accent` | The deck's one emphasis (below) |
+| `--bad` | Optional. A small mark for what goes wrong |
 | `--blackout` | Blackout ground — **true black in both themes** |
 
 ```css
@@ -350,11 +432,21 @@ Every derived tone mixes from the slots — no raw hex outside `:root`.
   pass/fail semantics. A fill fraction often carries the same meaning for free.
 - Both themes clear the same contrast floors.
 
-### The accent marks the departure
+### The accent has one meaning
 
-**The accent's job is to mark the one thing that departs from the pattern** — the
-exception in a series, the delta in a comparison, the boundary being crossed, the
-point the audience should leave with. At most one accented element per stage.
+**Across the whole deck the accent means one thing**, decided before the first
+figure is drawn and written in the ledger. Colour that means two things means
+nothing, and a reader learns the meaning on the first slide that uses it.
+
+- **In a data figure it marks the departure** — the exception in a series, the
+  delta in a comparison, the boundary being crossed. One accented element.
+- **In an explanatory diagram it marks the state the deck recommends**
+  (`figures.md` §5). That may be the largest element on the stage, and it is the
+  same meaning on every slide.
+
+A deck that uses both kinds of figure picks the meaning that serves its
+argument and holds it. What goes wrong may carry a second colour (`--bad`), as
+a small mark and never a region.
 
 This is not a quota to fill. It is a diagnostic: **a stage with no accent is a
 stage where nothing departs from the pattern**, which is usually a sign the beat

@@ -6,6 +6,16 @@ Most decks die here: the ideas are fine and the figure is four rounded boxes in 
 row. The cause is almost never drawing skill. It is that the figure was chosen
 after the text, to illustrate a passage that had already been written as prose.
 
+**There are two kinds of figure, and they fail differently.**
+
+| Kind | It shows | It fails by | Governed by |
+|---|---|---|---|
+| **Data figure** | A measurement: a quantity, a range, a count, a position on a scale | Being dishonest or timid | §1–§4 |
+| **Explanatory diagram** | How something works: who hands what to whom, what breaks, what replaces what, what the parts are | Being abstract — correct, tidy, and meaningless to anyone who was not there when it was drawn | §5, with the tests of §4 |
+
+Decide which kind each figure is before drawing it. Most decks that argue for a
+way of working are mostly explanatory diagrams, and §5 is the section they need.
+
 ---
 
 ## 1. Selection: what becomes a figure
@@ -148,6 +158,17 @@ usually swallow.
 | `sequence` | Ordered steps, causality | A line with stations, direction implied by order |
 | `containment` | Nesting, real structural inclusion | Nested or adjacent regions with real boundaries |
 
+### Explanatory
+
+These name what an explanatory diagram (§5) draws. `sequence`, `change`,
+`correspondence` and `containment` above serve explanatory diagrams too.
+
+| `data-relationship` | The content is | Draws as |
+|---|---|---|
+| `flow` | Work passing between people and systems | The people and systems as marks, the work as the real thing drawn small, read left to right |
+| `consolidation` | Many things replaced by, or drawing on, one shared thing | The many, small, feeding the one, large |
+| `anatomy` | The parts of one real thing | The thing itself, with up to three numbered marks |
+
 ### Notes on the harder ones
 
 **`positioning` is the one a table cannot hold.** If a passage names two
@@ -174,8 +195,12 @@ and quietly wrong. Check both, separately.
 
 ### Conviction — the figure commits to its stage
 
-**Draw like an instrument, not an infographic.** The idiom every good figure in
-this format shares: hairline scaffold, thin masses, open ground, labels in
+**This idiom governs data figures.** An explanatory diagram keeps its stroke,
+mark and label ladders and takes its drawing rules from §5: it may draw real
+things small, and it may put a name inside the container of the thing it names.
+
+**Draw like an instrument, not an infographic.** The idiom every good data figure
+in this format shares: hairline scaffold, thin masses, open ground, labels in
 registers beside the marks. Conviction means committing the *encoding* dimension
 — length, position, count — to the stage; it never means area. The failure mode
 of an over-eager reading of this section is slabs: bars fattened to hold their
@@ -201,7 +226,8 @@ That is not conviction, it is upholstery.
   drawn equivalents at icon boldness: a thick-ringed prohibition badge or a
   bold check is UI iconography, and it reads as a sticker on an instrument. The
   model is an open mark struck at ladder weight, meaning assigned by the
-  legend.
+  legend. (A real thing drawn small in an explanatory diagram is not a
+  pictogram: it is the subject. Decorative icons are banned in both kinds.)
 
 - **A figure occupies its region or forfeits it.** Drawn ink fills at least half
   of the figure's own column or region. Centring a small drawing in a tall column
@@ -298,6 +324,12 @@ The tell is that **nothing in it is to scale and nothing is positioned by a
 value.** Find the quantity or the order the claim rests on and draw *that* — or
 accept the content is a list and use `list`, which is not a defeat.
 
+This is the failure of a *measurable* claim drawn without its measure. A claim
+about how something works has no quantity to find. Its diagram is judged by §5:
+it draws the real things, its form has the argument's shape, and it passes the
+cold read. Labelled shapes joined by arrows fail there too, for a different
+reason: nobody can tell what they are.
+
 **Redundant series.** Rows that are all identical. See the exception rule in §1: draw
 the shared pattern once and only the departures.
 
@@ -307,6 +339,10 @@ Pick a shape vocabulary and never vary it for visual interest. A serviceable
 default: **square** for a system or quantity, **circle** for a person or an anchor,
 **line** for sequence or measurement. The same shape means the same thing on every
 stage in the deck.
+
+The grammar is for marks, never for composition. Holding one grammar does not
+mean every slide takes the same form: each figure takes the form its own
+argument has (§5).
 
 This is why a list marker is never a square: square already means
 system-or-quantity, and a bullet is neither. Five identical evenly-spaced squares
@@ -321,6 +357,16 @@ column of dates with no axis is a list wearing a chronology's clothes — if tha
 what the content is, use `list` and stop pretending.
 
 **An axis whose marks all fall in the first tenth is not measuring anything.**
+
+**A scale is shown whole.** A percentage runs from 0 to 100 and a cost from
+zero. Starting the axis just under the smallest value makes a small difference
+look large, and a reader who notices stops trusting every other figure in the
+deck. If the interesting part is a narrow band, draw the whole scale and use a
+detail callout (below).
+
+**A range is an interval, not a bar.** "83–94%" is drawn as a span with marked
+ends at 83 and 94 on the scale. A bar from zero to 94 draws a single value and
+hides the uncertainty the range exists to show.
 
 **No two pieces of placed text may overlap.** Inside SVG there is no layout engine:
 every label sits where its coordinates put it, nothing pushes anything aside, and
@@ -409,7 +455,12 @@ for it.
 *when its arrangement carries no information*. **If position means something it is
 structure; if position is just packing it is tiles.**
 
-**One dominant element.** Squint. Something must visibly dominate.
+**One dominant element.** Squint. Something must visibly dominate, and it must be
+the thing the headline is about.
+
+**The cold read.** For an explanatory diagram, the test that decides: a reader
+with no context looks at the diagram alone and says what it claims. It is run
+for real, by someone other than you (`verify.md` §3).
 
 **Deletion check.** Describe the figure without naming its subject: "four boxes in a
 grid." If that fits a hundred other decks, it fails.
@@ -451,3 +502,111 @@ body-style check ignores the meta register.
 the figure's own coordinate space**. Measure the DOM only for artifacts you did not
 draw, and there use the offset chain rather than `getBoundingClientRect`. SVG
 elements have no offset chain; do not try.
+
+---
+
+## 5. Explanatory diagrams
+
+Sections 1–4 are about figures that measure. Much of what a deck has to show is
+not a measurement: who hands what to whom, where a process breaks, what replaces
+what, what the parts of a product are. Shapes, arrows and labels can be correct
+and tidy and still say nothing to a reader who was not there when they were
+drawn. Seven principles prevent that, in the order of how much each matters.
+
+### 1. One claim, readable cold
+
+The diagram makes one claim, and a reader who sees only the diagram can say what
+it is. Write the claim as a sentence before drawing — the caption sentence of
+the spec. Then test it for real. **The cold read** (`verify.md` §3) gives a
+screenshot of the diagram alone to a reader with no context and compares what
+they say with the headline. You cannot run this test in your own head on your
+own drawing, because you already know what it means.
+
+### 2. Draw the real things
+
+The subjects of the diagram are drawn as themselves, small: a screen as a
+screen, a conversation as message bubbles, a file as a file, a tool by what it
+does. A real screenshot beats a drawing of one whenever it exists; the
+template's `shot()` holds its place until it arrives.
+
+- **A labelled box is the last resort**, for a thing with no appearance (a team,
+  a policy, a standard).
+- **Nothing is drawn that is not part of the work.** No decorative icons, no
+  people pictograms, no pointer with motion lines. A person is the grammar's
+  circle and a system is its square (§3). That is all the figure-drawing a
+  diagram needs.
+- **Check what a tidy-up removes.** Four small message bubbles under "ask for
+  it in chat" say more than the label alone. A concrete depiction that
+  looks like clutter is often the part doing the explaining.
+
+### 3. The form fits the argument
+
+Name what kind of thing is being explained, then use the form that has its
+shape.
+
+| The argument is | Form | Declared as |
+|---|---|---|
+| Work passing between people and systems | A flow, read left to right | `flow` |
+| Stage by stage, one state against another | Rows: one per stage, read across | `sequence`, or the `grid` archetype |
+| Many things replaced by, or drawing on, one shared thing | The many, small, feeding the one, large | `consolidation` |
+| The parts of one real thing | The thing itself, with up to three numbered marks | `anatomy` |
+| An order in time | A line with stations | `sequence` |
+| Before and after | Both states, the after dominant | `change` |
+
+- **A well-set table is a legitimate answer.** When the content is "for each of
+  these, this against that", rows with one reading direction beat any
+  arrangement of shapes.
+- **The reading path is obvious.** A reader can see where to start and how each
+  part leads to the next. Every connector means something a sentence could
+  state. If two parts sit near each other and the reader cannot tell how they
+  relate, the diagram is not finished.
+- **Counts line up.** Four things feeding three columns reads as a mistake. Make
+  the structure match the count, or change what is being counted.
+- **Not the same form twice out of habit.** Different arguments have different
+  shapes. When three slides in a row take one form, at least one was drawn from
+  the slide before it and not from its own argument. The verifier flags the run.
+- **When the form is in doubt, draw two or three and compare** (`review.md` §3).
+  The right one is usually obvious once they are side by side.
+
+### 4. Weight follows importance
+
+- **The recommended state dominates.** It is the largest element and it carries
+  the accent. A diagram that gives today's state and the proposed state equal
+  size argues for neither.
+- **Today's state is small and muted, and it sits in one place.** One compact
+  area at reduced weight. Do not attach a problem note to every element:
+  scattered warnings turn the diagram into a list of complaints and bury what is
+  being recommended.
+- **The accent keeps its one meaning** across the deck (`SKILL.md` §4).
+
+### 5. True to what it shows
+
+- **Draw the mess as a mess.** If some projects have a tool, some have a poor
+  one and some have none, draw that patchwork. Tidying reality into a uniform
+  row makes the diagram neater and the claim false.
+- **Label what is illustrative.** Three invented projects standing for many are
+  fine when the diagram or the evidence note says they are an example.
+- Scales and ranges follow §3: the whole scale, and an interval for a range.
+- Every element still traces to a sentence (§3, semantic fidelity).
+
+### 6. The words inside it
+
+A diagram's labels are held to `content.md` like any other text on the slide.
+
+- **A label names the thing in the audience's words and says what it does.** It
+  does not repeat the headline, and it is not a slogan for the thing.
+- **Labels sit beside what they name** and start on shared edges. A reader never
+  has to match a label to its mark by guessing.
+- **No caption explains the diagram.** If it needs explaining, redraw it.
+- Wrapped labels use the template's `lines()` helper. It sets the line pitch
+  (1.35 times the size) that keeps two lines of one label from touching.
+
+### 7. Its space is used
+
+- **A full-measure diagram uses the full measure.** Size the viewBox to the
+  content, not to a canvas the content floats in.
+- **Edges align.** Columns share left edges, rows share baselines, and arrows
+  end on their targets.
+- **Spare room is for information.** When space is left over, ask what else
+  would help the reader — what each part does, what each stage produces — before
+  spreading the same content further apart.

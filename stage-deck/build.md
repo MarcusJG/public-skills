@@ -19,7 +19,17 @@ deck.html?beat=<beat-id>&r=<reveal>
 | `Home` / `End` | First beat / last beat's final state |
 | `B` | Blackout |
 | `T` | Theme toggle |
+| Click, right half of the stage | Advance, exactly as `→` |
+| Click, left half of the stage | Retreat, exactly as `←` |
 
+- **Click-to-move is required.** Most readers of a forwarded deck never learn
+  the keys. Two invisible `<button>` zones cover the stage, half each, above the
+  content (`z-index`) with `tabindex="-1"` so they take no keyboard focus. Each
+  shows a faint chevron at its outer edge on hover. The cursor stays the
+  ordinary pointer. The first slide's foot says how to advance, and no other
+  slide mentions it.
+- A deck with links or controls inside a slide lifts those elements above the
+  zones (`position:relative; z-index:7`).
 - `PageUp`/`PageDown` matter — that is what presenter clickers send. Match on
   `e.code` as well as `e.key`.
 - Ignore keys while focus is in an input, textarea, or contenteditable.
@@ -34,53 +44,54 @@ deck.html?beat=<beat-id>&r=<reveal>
 
 ---
 
-## 2. File skeleton
+## 2. Start from the template
 
-One file. Inline everything. No CDN, no run-time font fetch.
+**Copy `template.html` and build inside it.** It is a working deck that passes
+the verifier, and it already carries everything that used to be rebuilt, slightly
+wrong, in every deck:
 
-```html
-<!doctype html>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Deck</title>
-<style>
-  :root{
-    --paper:/* brand */; --ink:/* brand */; --dim:/* brand */;
-    --surface:/* brand */; --line:/* brand */; --accent:/* brand */;
-    --blackout:#000;
-    --hair:color-mix(in srgb,var(--ink) 16%,transparent);
-    --faint:color-mix(in srgb,var(--ink) 44%,transparent);
-    --ghost:color-mix(in srgb,var(--ink) 10%,transparent);
-    --fill:color-mix(in srgb,var(--ink) 30%,transparent);
-    --field:color-mix(in srgb,var(--ink) 4%,var(--paper));   /* section band; dark theme ~8% */
-    --gap-item:1.1vh;   /* within a group          — the spacing ladder: every   */
-    --gap-block:3.2vh;  /* between roles/groups      gap in the body is one of   */
-    /* --col-gap below   / between regions           these three, or the budget's */
-    --radius:.75rem; --radius-sm:calc(var(--radius) - 6px);
-    --claim-top:13vh; --kicker-band:7.5vh; --foot-h:5.5vh; --basis-h:7vh;
-    --edge-l:12vh; --edge-r:7vw;            /* vh, not rem — see §3 */
-    --lead:2.9vh; --detail:2.1vh; --col-gap:4vw; --pip:2.4vh;
-    --hair-weight:1px;                      /* 1.5px for projector mode */
-    --font-display:/* brand, optional */,var(--font-sans);
-    --font-sans:/* brand */,system-ui,sans-serif;
-    --font-mono:/* brand */,ui-monospace,monospace;
-  }
-  html.dark{ /* dark slot overrides + hair 14% / faint 40% / ghost 9% / field 8% */ }
-  /* overflow on BOTH html and body — a position:fixed rail contributes to
-     documentElement.scrollHeight in Chromium and reports a phantom scroll. */
-  html,body{margin:0;height:100%;overflow:hidden}
-  body{background:var(--paper);color:var(--ink);font-family:var(--font-sans);
-       height:100dvh}
-  .stage{position:relative;height:100%;padding:0 var(--edge-r) 0 var(--edge-l);
-         display:grid;grid-template-rows:auto auto 1fr auto auto}
-  .stage > *{min-height:0;flex-shrink:0}
-  .claim{margin-top:calc(var(--claim-top) - var(--kicker-band))}
-  .body{display:flex;flex-direction:column;justify-content:center}
-  .meta{font-family:var(--font-mono);font-size:1.8vh;letter-spacing:.14em;
-        text-transform:uppercase;color:var(--dim)}
-  .lead{font-size:var(--lead);line-height:1.45;max-width:44ch}
-  .detail{font-size:var(--detail);line-height:1.5;max-width:52ch;color:var(--dim)}
-  .basis{font-family:var(--font-mono);font-size:1.6vh;line-height:1.7;color:var(--dim)}
+| The template provides | So you do not write |
+|---|---|
+| The stage anatomy: headline, description, body, evidence note, foot | The grid, the `vh` margins, the type ladder |
+| Click zones, keyboard navigation, URL state, theme, blackout | Any navigation code |
+| The tracker: equal segments, the current one filled | A rail |
+| `MODE` and `STEPS` switches | Reveal machinery. With `STEPS` on, the count is derived from the `data-reveal` values a beat renders |
+| `header(headline, description)` and `figure(svg, maxVh)` | Per-beat header markup |
+| `shot(key, artifact, need)` | Screenshot planes and the dashed placeholder for one not yet supplied |
+| SVG helpers: `SVG`, `label`, `text`, `tick`, `lines`, `arrow`, `box`, `hair`, `person`, `system` | Arrowheads, label pitch, stroke settings |
+
+What you replace: the palette and fonts in `:root`, the two intake constants,
+the coverage ledger, and every beat. The four beats in the template show the
+layouts; delete them. **`exampleFigure()` shows the helpers and the emphasis
+rules. It is not a form to reuse** — each diagram takes the form its own
+argument has (`figures.md` §5).
+
+One file. Inline everything. No CDN, no run-time font fetch; embed fonts as
+`woff2` data URIs in `@font-face` when the brand needs them.
+
+### Figures in the template
+
+- **A full-measure figure uses a viewBox 340 units wide**, so one unit is 1/340
+  of the measure and label sizes are comparable across slides: 5–6 for a name,
+  4–4.4 for a note, 3.6 for a tick.
+- **`preserveAspectRatio="xMinYMid meet"`** keeps the figure on the left edge
+  the headline holds. The `figure()` wrapper caps its height (`--figmax`), so a
+  tall viewBox shrinks and leaves the right side empty: make the viewBox wider
+  and shorter until the drawing reaches both edges.
+- **Wrapped labels go through `lines()`.** Its pitch is 1.35 times the font
+  size. Two `text()` calls placed by eye are the commonest cause of a label
+  collision failure.
+- **Missing screenshots are placeholders, not gaps.** `shot()` with an empty
+  `IMG` key draws a dashed plane that says which capture is needed. List the
+  pending keys in the ledger comment and in the handover.
+
+### Adding an arrangement
+
+The template covers a title, a full-measure figure, an annotated artifact and a
+list. For the other archetypes take the ratios from `archetypes.md` and the
+rules below, and add the CSS beside the template's.
+
+```css
   /* dense archetypes — equal columns; balance by distributing groups, not by
      resizing tracks. Ratios for two-region layouts are fixed: see archetypes.md §2 */
   .brief{display:grid;gap:var(--col-gap);align-content:start;
@@ -90,51 +101,24 @@ One file. Inline everything. No CDN, no run-time font fetch.
   /* subgrid: sub-heads share one row and first items another across all tracks,
      so a two-line sub-head cannot shove one column's items out of register */
   .brief > .col{display:grid;grid-template-rows:subgrid}
-  .lead{text-wrap:balance}
-  .detail{text-wrap:pretty}   /* kills single-word orphans where supported */
   .brief .group{display:flex;flex-direction:column;gap:var(--gap-item);margin-bottom:var(--gap-block)}
   .brief .group > .lead{max-width:34ch}    /* over ~34ch wraps and costs 4.2vh */
   /* the text measure as a track size — in vh, NOT ch: a ch here resolves against
      the ROOT font, not Detail's 2.1vh, and overflows the track by ~40%.
      52ch at Detail ≈ 52 × 0.5em × 2.1vh ≈ 55vh. */
-  --measure-track:55vh;
+  :root{--measure-track:55vh}
   .split{display:grid;gap:var(--col-gap);grid-template-columns:minmax(0,var(--measure-track)) 1fr}
   /* text track = its measure; the FIGURE absorbs the remainder; the gutter is
      exactly --col-gap. Slack never pools between regions. archetypes.md §2 */
   /* align INK, not boxes: an svg's letterbox offsets its first mark. Set the
      figure's own offset explicitly after measuring. See archetypes.md §5. */
   .split > .fig{align-self:var(--fig-align,start)}
-  /* a PANEL's tinted half runs the FULL stage height — kicker, basis and foot
-     rows included on its side — so no text row ever crosses the tint edge */
+  /* a PANEL's tinted half runs the FULL stage height — basis and foot rows
+     included on its side — so no text row ever crosses the tint edge */
   /* a field BLEEDS — no corner inside the stage. archetypes.md §6 */
   .field{background:var(--field);
          margin-inline:calc(-1 * var(--edge-l)) calc(-1 * var(--edge-r));
          padding-inline:var(--edge-l) var(--edge-r)}
-  /* the only bordered things on a stage; data-artifact names the real object */
-  .plane{border:var(--hair-weight) solid var(--line);border-radius:var(--radius);
-         background:var(--surface)}
-  .beat-enter{animation:enter 260ms ease-out both}
-  @keyframes enter{from{opacity:0;translate:0 1.2vh}to{opacity:1;translate:0 0}}
-  @media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
-</style>
-
-<div class="rail" aria-hidden="true"></div>
-<!-- data-archetype is set per beat by render(); see SKILL.md §2 -->
-<main class="stage" aria-label="Presentation stage" data-archetype=""></main>
-
-<script>
-  const MODE = "standalone";                 // or "presented" — governs all budgets
-  /* COVERAGE ledger: source claim → beat, and what was dropped, with why.
-     Rewrite this to match what you actually built. */
-  const BEATS = [ /* … */ ];
-  const FOOT_SLOT = "";                      // deck-level; empty renders nothing
-  const revealCount = b => /* derive from the beat's own reveal array */ 0;
-  let pos = { beat: 0, reveal: 0 };          // synchronous source of truth
-  function commit(beat, reveal){ /* clamp, set pos, render, replaceState */ }
-  function render(){ /* set data-archetype, scaffold, then place revealed content */ }
-  addEventListener('keydown', e => { /* the table in §1 */ });
-  addEventListener('DOMContentLoaded', () => { /* read URL, render */ });
-</script>
 ```
 
 ---
@@ -142,6 +126,19 @@ One file. Inline everything. No CDN, no run-time font fetch.
 ## 3. Traps
 
 Every one of these is silent. They report clean unless something goes looking.
+
+**A helper named after something the browser owns.** `const top = …` at the top
+level of the script is a syntax error that stops the whole file, and the console
+reports it as `BEATS is not defined` somewhere else. `top`, `window`, `document`
+and `location` cannot be redeclared. Name the header helper `header`.
+
+**A class name the template already uses.** A list given `class="rail"` picks up
+the tracker's `position:fixed` and vanishes to the left edge. The template's
+opening comment lists the names that are taken.
+
+**Background-clipped text loses its descenders.** A headline painted with
+`background-clip:text` is clipped at its line box, so the tails of g, p and y
+are cut. Add `padding-bottom:.14em`.
 
 **Margins in `rem` inside a `vh` system.** `8rem` is 11.9vh at 1080p and **17.8vh at
 720p**, so the measure narrows by ~4% between resolutions, text wraps to more lines,
@@ -165,7 +162,8 @@ the opposite failure: a figure that now overflows **sideways**, which a
 vertical-only check also misses.
 
 **`.basis:empty{display:none}` blinds the fill gate.** The verifier measures the
-body region from the claim's bottom to the basis's top; a basis removed from
+body region from the bottom of the headline block (`.claim`, and `.desc` when
+present) to the basis's top; a basis removed from
 layout returns a zero rect and the region collapses to nothing, so every
 basis-less beat silently skips its fill checks. Keep an absent basis out of the
 DOM entirely, or reserve it with `visibility:hidden` — never `display:none` on
